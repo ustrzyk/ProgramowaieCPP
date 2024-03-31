@@ -1,0 +1,1015 @@
+1. Klasa to zbiór danych składowych i funkcji składowych logiczie ze sobą powiązanych.
+2. Klasę można definiować za pomocą słów kluczowych struck lub class.
+3. Na podstawie klasy można tworzyć obiekty, czyli konkretnych reprezentanów danej klasy. Obiektów dana klasa moze miec nieskończenie wiele.
+4. Roznica miedzy programowaniem strukturalnym a obiektami:
+
+/******************************************************************************
+
+Sa trzy metody przekazywania parametrów do metod:
+- przez wartość, Pracownik p; ,nie zmienia się
+- przez referencje, Pracownik &p; zmienia
+- przez wskaznik, Pracownik *p; zmienia
+
+Funkcja wpisz i wyswietl jest poza klasą . Tak nie bedziemy programować !!!!!
+
+*******************************************************************************/
+#include <iostream>
+using namespace std;
+
+struct Pracownik
+{
+    string imie;
+    string nazwisko;
+    double placa;
+};
+
+void Wyswietl(Pracownik p)
+{
+  cout<<endl;
+  cout<<endl<<"Imie : "<<p.imie;
+  cout<<endl<<"Nazwisko : "<<p.nazwisko;
+  cout<<endl<<"Placa : "<<p.placa;
+}
+
+void Wpisz(Pracownik &p) // & bo się zmienia
+{
+  cout<<endl;
+  cout<<endl<<"Podaj imie : ";
+  cin>>p.imie;
+  cout<<endl<<"Podaj nazwisko : ";
+  cin>>p.nazwisko;
+  cout<<endl<<"Podaj place : ";
+  cin>>p.Placa;
+}
+
+int main()
+{
+    cout<<"Wyklad 1";
+    Pracownik p; // tw..
+    Wpisz(p);
+    Wyswietl(p);
+
+    return 0;
+}
+
+
+*************************************************************
+// obiektowo
+
+/******************************************************************************
+
+// ten sam program ale napisany obiektowo (wyswietl i wpisz jest wewnatrz klasy). tak bedziemy programowac
+
+*******************************************************************************/
+#include <iostream>
+using namespace std;
+
+struct Pracownik // poczatek klasy zdefiniowany za pomoca struct
+{
+    string imie;
+    string nazwisko;
+    double placa;
+ 
+    void Wyswietl()
+    {
+        cout<<endl;
+        cout<<endl<<"Imie : "<<imie;
+        cout<<endl<<"Nazwisko : "<<nazwisko;
+        cout<<endl<<"Placa : "<<placa;
+    }
+
+    void Wpisz() // & bo się zmienia
+    {
+        cout<<endl;
+        cout<<endl<<"Podaj imie : ";
+        cin>>imie;
+        cout<<endl<<"Podaj nazwisko : ";
+        cin>>nazwisko;
+        cout<<endl<<"Podaj place : ";
+        cin>>placa;
+    }
+};    // koniec klasy zdefiniowany za pomoca struct
+
+int main()
+{
+    cout<<"Wyklad 1";
+    Pracownik p1; // to jest pierwysz obiekt klasy Pracownik
+    p1.Wpisz();
+    p1.Wyswietl();
+
+    return 0;
+}
+
+************************
+Sa trzy typy ochrony danych.
+Jezeli cos jest : prywatne to moze byc dostepne w tej klasie w której jest oraz w zaprzyjaznionych funkcjach
+Jesli cos jest : protectetd to jest dostepne w tej klasie i klasach dziedziczacych
+Jesli cos jest : public to jest dostepne wszedzie czyli w klazie i poza klasa
+
+***************************
+Klase mozna zdefiniowac za pomoca slowa "struct" albo "class"
+
+W klasach zdefiniowanych jako struct domyslnie jest wszystko publiczne, a w klasach zdefiniowanychjako class domyslnie jest wszystko priwate
+
+*******************************
+
+Oto przykład 03 oto klasa zdefiniowana za pomoca class 
+
+/******************************************************************************
+
+// ten sam program ale napisany obiektowo ,public, private
+
+*******************************************************************************/
+#include <iostream>
+using namespace std;
+
+class Pracownik // poczatek klasy zdefiniowany za pomoca class, domyslnie ma wszystko przywatne
+{
+    private: //wszytko nizej jest prywatne, bedzie dostepne tylko w tej klacie    
+        string imie;
+        string nazwisko;
+        double placa;
+
+    public: // wszystko ponizej jest public, czyli dostepne wszedzie  
+        void Wyswietl()
+        {
+            cout<<endl;
+            cout<<endl<<"Imie : "<<imie;
+            cout<<endl<<"Nazwisko : "<<nazwisko;
+            cout<<endl<<"Placa : "<<placa;
+        }
+    
+        void Wpisz() // & bo się zmienia
+        {
+            cout<<endl;
+            cout<<endl<<"Podaj imie : ";
+            cin>>imie;
+            cout<<endl<<"Podaj nazwisko : ";
+            cin>>nazwisko;
+            cout<<endl<<"Podaj place : ";
+            cin>>placa;
+        }
+};    // koniec klasy zdefiniowany za pomoca klas
+
+int main()
+{
+    cout<<"Wyklad 1";
+    Pracownik p1; // to jest pierwysz obiekt klasy Pracownik
+    p1.Wpisz();
+    p1.Wyswietl();
+    
+    Pracownik p2; // to jest pierwysz obiekt klasy Pracownik
+    p2.Wpisz();
+    p2.Wyswietl();
+    //cout<<endl<<p1.imie;
+
+    return 0;
+}
+
+************************************************
+
+Konstruktor to taka funkcja ktora :
+- nazywa sie tak samo jak klasa
+- zazwyczaj uzupełnia pola obiektów
+- wyswołoje się jak powstaje obiekt danej klasy
+
+klasa moze miec wiele konstruktorów, konstruktory musza ruznic się paratrami
+
+/******************************************************************************
+
+// ten sam program ale napisany obiektowo ,public, private + konstruktor + konstruktor bezparametryczny 
+
+*******************************************************************************/
+#include <iostream>
+using namespace std;
+
+class Towar // poczatek klasy zdefiniowany za pomoca class, domyslnie ma wszystko przywatne
+{
+ private: // ta bedzie uzywane w tej klasie
+    string nazwa;
+    string kod;
+    double cena;
+    double ilosc;
+ public:  // to bedzie wydziane w klasie i poza klasa
+    Towar(string _nazwa, string _kod, double _cena, double _ilosc) // to jest konstruktor
+         {
+            nazwa=_nazwa;
+            kod=_kod;
+            cena=_cena;
+            ilosc=_ilosc;
+         }
+    Towar() // to jest konstruktor bezparametryczny
+         {
+            nazwa="";
+            kod="0";
+            cena=0;
+            ilosc=0;
+         }
+    Towar(string _nazwa, string _kod, double _cena) // to jest konstruktor bezparametryczny
+         {
+            nazwa=_nazwa;
+            kod=_kod;
+            cena=_cena;
+            ilosc=1;
+         }     
+         void Wyswietl()
+         {
+            cout<<endl;
+            cout<<endl<<"Nazwa: "<<nazwa;
+            cout<<endl<<"Kod: "<<kod;
+            cout<<endl<<"Cena: "<<cena;
+            cout<<endl<<"Ilosc: "<<ilosc; 
+         }
+};    // koniec klasy zdefiniowany za pomoca klas
+
+int main()
+{
+    cout<<"Wyklad 2";
+    Towar t1("Towar 1","T1",1,1); // tu podajemy tyle konkretnych danych ile wygal konstruktor
+    t1.Wyswietl();
+    
+    Towar t3(); // tu podajemy tyle konkretnych danych ile wygal konstruktor
+    t3.Wyswietl();
+    
+    Towar t2("Towar 3","T2",3); // tu podajemy tyle konkretnych danych ile wygal konstruktor
+    t3.Wyswietl();
+    
+    return 0;
+}
+
+*********************************************************
+
+/******************************************************************************
+
+// ten sam program ale napisany obiektowo ,public, private + konstruktor + konstruktor bezparametryczny
+
+*******************************************************************************/
+#include <iostream>
+using namespace std;
+
+class Towar // poczatek klasy zdefiniowany za pomoca class, domyslnie ma wszystko przywatne
+{
+ private: // ta bedzie uzywane w tej klasie
+    string nazwa;
+    string kod;
+    double cena;
+    double ilosc;
+ public:  // to bedzie wydziane w klasie i poza klasa
+    Towar(string _nazwa, string _kod, double _cena, double _ilosc) // to jest konstruktor
+         {
+            nazwa=_nazwa;
+            kod=_kod;
+            cena=_cena;
+            ilosc=_ilosc;
+         }
+    Towar() // to jest konstruktor bezparametryczny
+         {
+            nazwa="";
+            kod="0";
+            cena=0;
+            ilosc=0;
+         }
+    Towar(string _nazwa, string _kod, double _cena) // to jest konstruktor bezparametryczny
+         {
+            nazwa=_nazwa;
+            kod=_kod;
+            cena=_cena;
+            ilosc=1;
+         }     
+         void Wyswietl()
+         {
+            cout<<endl;
+            cout<<endl<<"Nazwa: "<<nazwa;
+            cout<<endl<<"Kod: "<<kod;
+            cout<<endl<<"Cena: "<<cena;
+            cout<<endl<<"Ilosc: "<<ilosc; 
+         }
+};    // koniec klasy zdefiniowany za pomoca klas
+
+int main()
+{
+    cout<<"Wyklad 2";
+    Towar t1("Towar 1","T1",1,1); // tu podajemy tyle konkretnych danych ile wygal konstruktor
+    t1.Wyswietl();
+   
+    /******************************************************************************
+
+// ten sam program ale napisany obiektowo ,public, private + konstruktor + konstruktor bezparametryczny
+
+*******************************************************************************/
+
+to samo z lista inicjalizacyjna
+
+#include <iostream>
+using namespace std;
+
+class Towar // poczatek klasy zdefiniowany za pomoca class, domyslnie ma wszystko przywatne
+{
+ private: // ta bedzie uzywane w tej klasie
+    string nazwa;
+    string kod;
+    double cena;
+    double ilosc;
+ public:  // to bedzie wydziane w klasie i poza klasa
+    Towar(string _nazwa, string _kod, double _cena, double _ilosc) // to jest konstruktor
+        :nazwa(_nazwa),kod(_kod),cena(_cena),ilosc(_ilosc) //lista inicjalizacyjna
+         {
+            //nazwa=_nazwa;
+           // kod=_kod;
+            //cena=_cena;
+            //ilosc=_ilosc;
+         }
+    Towar() // to jest konstruktor bezparametryczny
+         :nazwa(""),kod(""),cena(0),ilosc(0)  //wstawiam dane
+         {
+         }
+    Towar(string _nazwa, string _kod, double _cena) // to jest konstruktor bezparametryczny
+        :nazwa(_nazwa),kod(_kod),cena(_cena),ilosc(1) //lista inicjalizacyjna
+         {
+            //nazwa=_nazwa;
+            //kod=_kod;
+            //cena=_cena;
+            //ilosc=1;
+         }     
+         void Wyswietl()
+         {
+            cout<<endl;
+            cout<<endl<<"Nazwa: "<<nazwa;
+            cout<<endl<<"Kod: "<<kod;
+            cout<<endl<<"Cena: "<<cena;
+            cout<<endl<<"Ilosc: "<<ilosc; 
+         }
+};    // koniec klasy zdefiniowany za pomoca klas
+
+int main()
+{
+    cout<<"Wyklad 2";
+    Towar t1("Towar 1","T1",1,1); // tu podajemy tyle konkretnych danych ile wygal konstruktor
+    
+    
+    Towar t3(); // tu podajemy tyle konkretnych danych ile wygal konstruktor
+    t1.Wyswietl();
+    
+   
+    
+    return 0;
+}
+ 
+*************************************************************   
+w liscie inicjalizacyjnej mozna się pozbyc sie podkreslników
+
+/******************************************************************************
+
+// ten sam program ale napisany obiektowo ,public, private + konstruktor + konstruktor bezparametryczny
+
+*******************************************************************************/
+#include <iostream>
+using namespace std;
+
+class Towar // poczatek klasy zdefiniowany za pomoca class, domyslnie ma wszystko przywatne
+{
+ private: // ta bedzie uzywane w tej klasie
+    string nazwa;
+    string kod;
+    double cena;
+    double ilosc;
+ public:  // to bedzie wydziane w klasie i poza klasa
+    Towar(string _nazwa, string _kod, double _cena, double _ilosc) // to jest konstruktor
+         {
+            nazwa=_nazwa;
+            kod=_kod;
+            cena=_cena;
+            ilosc=_ilosc;
+         }
+    Towar() // to jest konstruktor bezparametryczny
+         {
+            nazwa="";
+            kod="0";
+            cena=0;
+            ilosc=0;
+         }
+    Towar(string _nazwa, string _kod, double _cena) // to jest konstruktor bezparametryczny
+         {
+            nazwa=_nazwa;
+            kod=_kod;
+            cena=_cena;
+            ilosc=1;
+         }     
+         void Wyswietl()
+         {
+            cout<<endl;
+            cout<<endl<<"Nazwa: "<<nazwa;
+            cout<<endl<<"Kod: "<<kod;
+            cout<<endl<<"Cena: "<<cena;
+            cout<<endl<<"Ilosc: "<<ilosc; 
+         }
+};    // koniec klasy zdefiniowany za pomoca klas
+
+int main()
+{
+    cout<<"Wyklad 2";
+    Towar t1("Towar 1","T1",1,1); // tu podajemy tyle konkretnych danych ile wygal konstruktor
+    t1.Wyswietl();
+   
+    /******************************************************************************
+
+// ten sam program ale napisany obiektowo ,public, private + konstruktor + konstruktor bezparametryczny
+
+*******************************************************************************/
+#include <iostream>
+using namespace std;
+
+class Towar // poczatek klasy zdefiniowany za pomoca class, domyslnie ma wszystko przywatne
+{
+ private: // ta bedzie uzywane w tej klasie
+    string nazwa;
+    string kod;
+    double cena;
+    double ilosc;
+ public:  // to bedzie wydziane w klasie i poza klasa
+    Towar(string _nazwa, string _kod, double _cena, double _ilosc) // to jest konstruktor
+        :nazwa(_nazwa),kod(_kod),cena(_cena),ilosc(_ilosc) //lista inicjalizacyjna
+         {
+            //nazwa=_nazwa;
+           // kod=_kod;
+            //cena=_cena;
+            //ilosc=_ilosc;
+         }
+    Towar() // to jest konstruktor bezparametryczny
+         :nazwa(""),kod("0"),cena(0),ilosc(0)  //wstawiam dane
+         {
+         }
+    Towar(string _nazwa, string _kod, double _cena) // to jest konstruktor bezparametryczny
+        :nazwa(_nazwa),kod(_kod),cena(_cena),ilosc(1) //lista inicjalizacyjna
+         {
+            //nazwa=_nazwa;
+            //kod=_kod;
+            //cena=_cena;
+            //ilosc=1;
+         }     
+         void Wyswietl()
+         {
+            cout<<endl;
+            cout<<endl<<"Nazwa: "<<nazwa;
+            cout<<endl<<"Kod: "<<kod;
+            cout<<endl<<"Cena: "<<cena;
+            cout<<endl<<"Ilosc: "<<ilosc; 
+         }
+};    // koniec klasy zdefiniowany za pomoca klas
+
+int main()
+{
+    cout<<"Wyklad 2";
+    Towar t1("Towar 1","T1",1,1); // tu podajemy tyle konkretnych danych ile wygal konstruktor
+    
+    
+    Towar t2(); // tu podajemy tyle konkretnych danych ile wygal konstruktor
+    t2.Wyswietl();
+    
+    return 0;
+}
+
+
+Niepowtarzalnosc kodu jest główna cecha programowania obiektowego 
+
+
+   
+/******************************************************************************
+
+// ten sam program ale napisany obiektowo ,public, private + konstruktor + konstruktor bezparametryczny
+
+*******************************************************************************/
+#include <iostream>
+using namespace std;
+
+class Towar // poczatek klasy zdefiniowany za pomoca class, domyslnie ma wszystko przywatne
+{
+ private: // ta bedzie uzywane w tej klasie
+    string nazwa;
+    string kod;
+    double cena;
+    double ilosc;
+ public:  // to bedzie wydziane w klasie i poza klasa
+    Towar(string _nazwa, string _kod, double _cena, double _ilosc) // to jest konstruktor
+        :nazwa(_nazwa),kod(_kod),cena(_cena),ilosc(_ilosc) //lista inicjalizacyjna
+         {
+            //nazwa=_nazwa;
+           // kod=_kod;
+            //cena=_cena;
+            //ilosc=_ilosc;
+         }
+    Towar() // to jest konstruktor bezparametryczny
+         :Towar("","0",0,0)  //w drugim konstrukotrze wyswoluje pierwszy konstruktor
+         {
+         }
+    Towar(string _nazwa, string _kod, double _cena) // to jest konstruktor bezparametryczny
+        :Towar(nazwa,kod,cena,111) // w trzecim konstruktorze wywoluje pierwszy konstruktor
+         {
+            //nazwa=_nazwa;
+            //kod=_kod;
+            //cena=_cena;
+            //ilosc=1;
+         }     
+         void Wyswietl()
+         {
+            cout<<endl;
+            cout<<endl<<"Nazwa: "<<nazwa;
+            cout<<endl<<"Kod: "<<kod;
+            cout<<endl<<"Cena: "<<cena;
+            cout<<endl<<"Ilosc: "<<ilosc; 
+         }
+};    // koniec klasy zdefiniowany za pomoca klas
+
+int main()
+{
+    cout<<"Wyklad 2";
+    Towar t1("Towar 1","T1",1,1); // tu podajemy tyle konkretnych danych ile wygal konstruktor
+    t1.Wyswietl();
+    
+    Towar t2("Towar 2","T2",1); // tu podajemy tyle konkretnych danych ile wygal konstruktor
+    t2.Wyswietl();
+    
+    Towar t3; // tu podajemy tyle konkretnych danych ile wygal konstruktor
+    t3.Wyswietl();
+    
+    
+    
+return 0;
+}
+
+
+*******************************************
+
+przykład użycia THIS
+
+
+   
+/******************************************************************************
+
+// ten sam program ale napisany obiektowo ,public, private + konstruktor + this
+
+*******************************************************************************/
+#include <iostream>
+using namespace std;
+
+class Towar 
+{
+ private: 
+    string nazwa;
+    string kod;
+    double cena;
+    double ilosc;
+ public:  
+    Towar(string nazwa, string kod, double cena, double ilosc) 
+    {
+        this->nazwa=nazwa;
+        this->kod=kod;
+        this->cena=cena;
+        this->ilosc=ilosc;
+    }     
+    
+    void Wyswietl()
+         {
+            cout<<endl;
+            cout<<endl<<"Nazwa: "<<nazwa; 
+            cout<<endl<<"Kod: "<<kod;
+            cout<<endl<<"Cena: "<<cena;
+            cout<<endl<<"Ilosc: "<<ilosc; 
+         }     
+};    // koniec klasy zdefiniowany za pomoca klas
+
+int main()
+{
+    cout<<"Wyklad 2";
+    Towar t1("Towar 1","T1",1,1); // tu podajemy tyle konkretnych danych ile wygal konstruktor
+    t1.Wyswietl();
+    
+    
+return 0;
+}
+
+************************************************
+
+Pole statyczne ma wspulna wartosc dla wszystkich obieków danej  klasy, mozna je wywoływać operatorem zakresu!!!!
+
+
+   
+/******************************************************************************
+
+ten sam program ale napisany obiektowo  Pole Statyczne
+
+*******************************************************************************/
+#include <iostream>
+using namespace std;
+
+class Towar 
+{
+ private: 
+    string nazwa;
+    string kod;
+    //static int liczbaTowarow; // to jest pole statyczne czyli jego wartosc jest wspolna dla wszystkich obiektów klasy Towar
+    
+ public:  
+    static int liczbaTowarow;
+    Towar(string nazwa, string kod) 
+    :nazwa(nazwa),kod(kod)
+    {
+        liczbaTowarow++;
+    }     
+    
+    void Wyswietl()
+         {
+            cout<<endl;
+            cout<<endl<<"Nazwa: "<<nazwa; 
+            cout<<endl<<"Kod: "<<kod;
+         }     
+}; // koniec obiektu Towar 
+
+// pole statyczne musi miec ustalona poczatkowa wartosc poza klasa
+int Towar::liczbaTowarow=0;
+
+int main()
+{
+    cout<<"Wyklad 2";
+    Towar t1("Towar 1","T1"); 
+    t1.Wyswietl();
+    
+    Towar t2("Towar 2","T2"); 
+    t2.Wyswietl();
+    
+    
+    cout<<endl<<"Liczba towarow t1 = "<<t1.liczbaTowarow;
+    cout<<endl<<"Liczba towarow t1 = "<<t2.liczbaTowarow;
+    // pole ststyczne mozna wywolywac dla obiektu , ale mozna tez dla klasy operatorem zakresu
+    cout<<endl<<"Liczba towarow z klasy Towar = "<<Towar::liczbaTowarow;
+    
+    return 0;
+}
+
+
+***************************************************************************
+
+Funkcje statyczne to takie które operuja wylacznie na skladnikach ststycznych :
+- maja static z przodu
+- operuja wylacznie na skladnikach statycznych
+- moga byc wywolywane na rzecz całej klasy ale i obiektu
+
+/******************************************************************************
+
+ten sam program ale napisany obiektowo  Funkcje Statyczne
+
+*******************************************************************************/
+#include <iostream>
+using namespace std;
+
+class Towar 
+{
+ private: 
+    string nazwa;
+    string kod;
+    //static int liczbaTowarow; // to jest pole statyczne czyli jego wartosc jest wspolna dla wszystkich obiektów klasy Towar
+    
+ public:  
+    static int liczbaTowarow;
+    Towar(string nazwa, string kod) 
+    :nazwa(nazwa),kod(kod)
+    {
+        liczbaTowarow++;
+    }     
+    
+    void Wyswietl()
+         {
+            cout<<endl;
+            cout<<endl<<"Nazwa: "<<nazwa; 
+            cout<<endl<<"Kod: "<<kod;
+         } 
+    // funkcja statyczna uzywa tylko skladowych statycznych   
+    // dzieki temu ze funkcja jest statyczna moze byc urzyuwana na rzecz całej klasy nie obiektu
+    static int GetLiczbaTowarow()
+    {
+        return liczbaTowarow;
+    }
+}; // koniec obiektu Towar 
+
+// pole statyczne musi miec ustalona poczatkowa wartosc poza klasa
+int Towar::liczbaTowarow=0;
+
+int main()
+{
+    cout<<"Wyklad 2";
+    Towar t1("Towar 1","T1"); 
+    t1.Wyswietl();
+    
+    Towar t2("Towar 2","T2"); 
+    t2.Wyswietl();
+    
+    cout<<endl<<"Liczba towarow z obiektu T1: "<<t1.GetLiczbaTowarow();
+    cout<<endl<<"Liczba towarow z obiektu T2: "<<t2.GetLiczbaTowarow();
+    // Funkcje Statyczne moga byc wywolywanye na rzecz calej klasy
+    cout<<endl<<"Liczba towarow z klasy Towar: "<<Towar::GetLiczbaTowarow();
+    
+    return 0;
+}
+
+
+**********************************************************************
+
+Obiekt Stały to takiktóry ma const przed deklaracja obiektu, i dla ktorego mozna wywoływac tylko funkcjie stałe
+
+Funkcje stałe to takie ktore maja const przed nazwa i one nie moga zmieniac obiektu.
+
+******************************************************************
+
+/******************************************************************************
+
+C++ programowanie  obiektowe Wyklad Funkcje i Obiekty Stałe
+
+*******************************************************************************/
+#include <iostream>
+using namespace std;
+
+class Towar 
+{
+ private: 
+    string nazwa;
+    string kod;
+ public:  
+    Towar(string nazwa, string kod) 
+    :nazwa(nazwa),kod(kod)
+    {
+    }     
+    // funkcja stała nie zmiania wartosc bloku
+    void Wyswietl() const
+         {
+            cout<<endl;
+            cout<<endl<<"Nazwa: "<<nazwa; 
+            cout<<endl<<"Kod: "<<kod;
+         } 
+   
+}; // koniec obiektu Towar 
+
+int main()
+{
+    cout<<"Wyklad 2";
+    // to jest obiekt staly , moze wywolywac tylko funkcje stale
+    const Towar t1("Towar 1","T1"); 
+    t1.Wyswietl();
+    
+    Towar t2("Towar 2","T2"); 
+    t2.Wyswietl();
+    
+    return 0;
+}
+***********************************************
+
+Funkcje zaprzyjaznione :
+- jedynie klasa moze wskazac ze funkcja jest zaprzyjazniona
+- funkcje moze zaprzyjaznic wiecej niz z jedna klasą (skladnikami klasy)
+-
+
+/******************************************************************************
+
+C++ programowanie  obiektowe Wyklad Funkcje Zaprzyjzanione
+
+*******************************************************************************/
+#include <iostream>
+using namespace std;
+
+class Rachunek 
+{
+ private: 
+    string numer;
+    string daneWlasciciela;
+ public:  
+    Rachunek(string numer, string daneWlasciciela) 
+    :numer(numer),daneWlasciciela(daneWlasciciela)
+    {
+    }     
+    // funkcja stała nie zmiania wartosc bloku
+    void Drukuj() const
+         {
+            cout<<endl;
+            cout<<endl<<"Numer: "<<numer; 
+            cout<<endl<<"Dane Wlasciciela: "<<daneWlasciciela;
+         } 
+        // jezeli chcemy aby funkcja ktura jest poza klasa , mogla uzywac skladowych prywatnych tej klasy to powinna byc zaprzyjazniona z ta klasa  
+    friend void PoleceniePrzelewu(Rachunek r);
+    };// tu jest koniec klasy 
+void PoleceniePrzelewu(Rachunek r)
+{
+    cout<<endl<<"Polecenie przelewu: ";
+    cout<<endl<<"Numer rachunku do przelewu: "<<r.numer; // che uzyc pola prywatnego
+}
+
+int main()
+{
+    cout<<"Wyklad 3";
+    Rachunek r1("1","Wlasciciel 1"); 
+    r1.Drukuj();
+    PoleceniePrzelewu(r1);
+    
+    return 0;
+}
+
+****************************************************************************
+
+Dekonstruktor to taka funkcja która : 
+- nawa sie tak samo jak klasa tylko mo ~tylde z przodu
+- destruktor wykonuje sie sam przed zniszczeniem obiektu
+- destruktor nie zwalnia pamieci i nie kasuje obiektu 
+- nic nie zwraca
+
+/******************************************************************************
+
+C++ programowanie  obiektowe Wyklad Destruktor
+
+*******************************************************************************/
+#include <iostream>
+using namespace std;
+
+class Rachunek 
+{
+ private: 
+    string numer;
+    string daneWlasciciela;
+ public:  
+    Rachunek(string numer, string daneWlasciciela) 
+    :numer(numer),daneWlasciciela(daneWlasciciela)
+    {
+        cout<<endl<<"To ja twoj konstruktor rachunku numeru: "<< numer;
+    }     
+    
+    void Drukuj() 
+         {
+            cout<<endl;
+            cout<<endl<<"Numer: "<<numer; 
+            cout<<endl<<"Dane Wlasciciela: "<<daneWlasciciela;
+         } 
+    ~Rachunek() 
+    {
+        cout<<endl<<"To ja twoj dekonstruktor rachunku numeru: "<< numer;
+    }     
+};    
+int main()
+{
+    cout<<"Wyklad 3";
+    {
+    Rachunek r1("1","Wlasciciel 1"); 
+    r1.Drukuj();    
+    }// tu wywola sie dekonstruktor  w chwili wyjsca z bloku
+    cout<<endl<<"aaa";
+    
+    
+    return 0;
+}
+
+
+*********************************************************
+
+
+/******************************************************************************
+
+C++ programowanie  obiektowe Wyklad Destruktor
+
+*******************************************************************************/
+#include <iostream>
+using namespace std;
+
+class Rachunek 
+{
+ private: 
+    string numer;
+    string daneWlasciciela;
+ public:  
+    Rachunek(string numer, string daneWlasciciela) 
+    :numer(numer),daneWlasciciela(daneWlasciciela)
+    {
+        cout<<endl<<"To ja twoj konstruktor rachunku numeru: "<< numer;
+    }     
+    
+    void Drukuj() 
+         {
+            cout<<endl;
+            cout<<endl<<"Numer: "<<numer; 
+            cout<<endl<<"Dane Wlasciciela: "<<daneWlasciciela;
+         } 
+    ~Rachunek() 
+    {
+        cout<<endl<<"To ja twoj dekonstruktor rachunku numeru: "<< numer;
+    }     
+};    
+int main()
+{
+    cout<<"Wyklad 3";
+    {
+    static Rachunek r1("1","Wlasciciel 1"); 
+    r1.Drukuj();    
+    }
+    cout<<endl<<"aaa";
+    
+    
+    return 0;
+}// tu wywola sie dekonstruktor  w chwili wyjsca z bloku dla static tu
+
+
+******************************************************
+
+Obiekty dynamiczene tworzone Operatorem NEW
+
+/******************************************************************************
+
+C++ programowanie  obiektowe Wyklad Obiekty dynamiczene Operator NEW
+
+*******************************************************************************/
+#include <iostream>
+using namespace std;
+
+class Rachunek 
+{
+ private: 
+    string numer;
+    string daneWlasciciela;
+ public:  
+    Rachunek(string numer, string daneWlasciciela) 
+    :numer(numer),daneWlasciciela(daneWlasciciela)
+    {
+        cout<<endl<<"To ja twoj konstruktor rachunku numeru: "<< numer;
+    }     
+    
+    void Drukuj() 
+         {
+            cout<<endl;
+            cout<<endl<<"Numer: "<<numer; 
+            cout<<endl<<"Dane Wlasciciela: "<<daneWlasciciela;
+         } 
+    ~Rachunek() 
+    {
+        cout<<endl<<"To ja twoj dekonstruktor rachunku numeru: "<< numer;
+    }     
+};    
+int main()
+{
+    cout<<"Wyklad 3";
+    // dynamicze tworzenie rachunku 
+    Rachunek *r1=new Rachunek("1","Wlasciciel 1");
+    r1->Drukuj();//jak mamy wskaznik to zamiast . jest ->
+    delete r1;// kasuje obiekt r1 , to ja decyduje kiedy wywoluje sie destruktor
+    
+    return 0;
+}
+
+***********************************************************
+
+/******************************************************************************
+
+C++ programowanie  obiektowe Wyklad Obiekty dynamiczene Obiekt anonimowy
+
+*******************************************************************************/
+#include <iostream>
+using namespace std;
+
+class Rachunek 
+{
+ private: 
+    string numer;
+    string daneWlasciciela;
+ public:  
+    Rachunek(string numer, string daneWlasciciela) 
+    :numer(numer),daneWlasciciela(daneWlasciciela)
+    {
+    }     
+    
+    void Drukuj() 
+         {
+            cout<<endl;
+            cout<<endl<<"Numer: "<<numer; 
+            cout<<endl<<"Dane Wlasciciela: "<<daneWlasciciela;
+         } 
+};    
+int main()
+{
+    cout<<"Wyklad 3";
+    Rachunek("1","Wlasciciel 1").Drukuj(); // obiekt anonimowy
+    
+    return 0;
+}
+
+******************************************
+
+Jeżeli klasa A dziedziczy po klasie B to miedzy nimi jest zwiazek typu "jest" B jest A !!!!
+Jezeli B dziedziczy po A to jest A ale jest czym sięcej niz A
+Dziedziczenie jest 3 cecha charakterystyczna programowania obiektowego.
+
+Dokumen <- Faktura
+Osoba <- Pracownik <-Dyrektor // musi byc zwiazek "JEST"
+Osoba <- Klijent 
+Dokument <- Umowa
+Dokument <- Zamuwienie
+Uslop <- UrlopWypoczynkowy
+Postac <- Wojownik
+
+
+
+
+
+

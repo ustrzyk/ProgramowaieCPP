@@ -1,0 +1,588 @@
+Dziedziczenie jest zwiazkiem typu jest.
+Jezeli klasa B dziedziczy po A to B ma wszystko to co A i przewarznie jeszcze wiecej.
+Wszystko z klasy A przechodzi na klase B.
+
+Przykład dziedziczenia :
+
+/******************************************************************************
+
+C++ programowanie  obiektowe Wyklad Dziedziczenie
+
+*******************************************************************************/
+#include <iostream>
+using namespace std;
+
+class Osoba 
+{
+    private:
+        string imie;
+        string nazwisko;
+    public:
+        Osoba(string imie,string nazwisko)
+        :imie(imie),nazwisko(nazwisko)
+        {
+        }
+        void Drukuj() const
+        {
+            cout<<endl<<"Imie i nazwisko: "<<imie<<" "<<nazwisko;
+        }
+};
+//Pracownik jest osoba, zatem pracownik moze dziedziczyc po Osoba
+class Pracownik: public Osoba //Oznacza ze Pracownik dziedziczy po osoba
+// dzieki dziedziczeni wszystko z Osoba przeszło do Pracownik
+{
+    private:
+        string stanowisko;
+        double placa;
+    public:
+        Pracownik(string _imie,string _nazwisko,string _stanowisko,double _placa)
+        :Osoba(_imie,_nazwisko),stanowisko(_stanowisko),placa(_placa) //lista inicjalizacyjna
+        //wywoluje ona konstruktor z klasy Osoba ktora wypelnia pola imie i nazwisko
+        {
+            //imie=_imie;
+            //nazwisko=_nazwisko;
+            //stanowisko=_stanowisko;
+            //placa=_nazwisko;
+        }
+        void Drukuj() const
+        {
+            Osoba::Drukuj();//to jest wywolanie funkcji Drukuj klasy Osoba, c
+            // zyli wydrukowanie imie i nazwiska pracownika
+            cout<<endl<<"Stanowisko: "<<stanowisko;
+            cout<<endl<<"Placa: "<<placa;
+        }
+    
+};
+
+int main()
+{
+    Pracownik p1("Adam","Kot","Kierownik",6000);
+    p1.Drukuj();
+    
+    return 0;
+}
+
+******************************************************
+
+Jezeli B dziedziczy z A to : 
+- B jest nazywana klasa pochodną lub wywiedzioną
+- A jest nazywana podstawowa lub macierzystą
+
+C++ nie dziedziczy:
+- Konstruktorów
+- Destruktorów
+
+Zwiazek typu JEST nazywany jest dziedziczeniem
+Zwiazek typu MA nazywany jest kompozycją
+
+Przykład dziedziczenie kilkupokoleniowego :
+
+/******************************************************************************
+
+C++ programowanie  obiektowe Wyklad Dziedziczenie 2
+
+*******************************************************************************/
+#include <iostream>
+using namespace std;
+
+class Osoba 
+{
+    private:
+        string imie;
+        string nazwisko;
+    public:
+        Osoba(string imie,string nazwisko)
+        :imie(imie),nazwisko(nazwisko)
+        {
+        }
+        void Drukuj() const
+        {
+            cout<<endl<<"Imie i nazwisko: "<<imie<<" "<<nazwisko;
+        }
+};
+
+class Pracownik: public Osoba 
+{
+    private:
+        string stanowisko;
+    public:
+        Pracownik(string _imie,string _nazwisko,string _stanowisko)
+        :Osoba(_imie,_nazwisko),stanowisko(_stanowisko)
+        {
+        }
+        void Drukuj() const
+        {
+            Osoba::Drukuj();
+            cout<<endl<<"Stanowisko: "<<stanowisko;
+        }
+    
+};
+class PracownikEtatowy:public Pracownik
+{
+    private:
+        double placaBrutto;
+    public:
+        PracownikEtatowy(string imie,string nazwisko,string stanowisko,double placaBrutto)
+        :Pracownik(imie,nazwisko,stanowisko),placaBrutto(placaBrutto)
+        {
+        }
+        void Drukuj() const
+            {
+                Pracownik::Drukuj();
+                cout<<endl<<"Placa Brutto"<<placaBrutto;
+            }
+};
+class PracownikGodzinowy :public Pracownik
+{
+    private:
+        double liczbaGodzin;
+        double stawkaGodzinowa;
+    public:
+        PracownikGodzinowy(string imie,string nazwisko,string stanowisko,double liczbaGodzin,double stawkaGodzinowa)
+        :Pracownik(imie,nazwisko,stanowisko),liczbaGodzin(liczbaGodzin),stawkaGodzinowa(stawkaGodzinowa)
+        {
+        }
+        void Drukuj() const
+        {
+            Pracownik::Drukuj();// wywolanie metody Drukuj() z klasy Pracownik, wyswietlenie nazwiska i stanowiska
+            cout<<endl<<"Liczba godzin: "<<liczbaGodzin;
+            cout<<endl<<"Stawka Godzinowa"<<stawkaGodzinowa;
+        }
+        double LiczWynagrodznie()
+        {
+            return liczbaGodzin*stawkaGodzinowa;
+        }
+};
+int main()
+{
+    Pracownik p1("Tomasz","Saran","Kierownik");
+    p1.Drukuj();
+    cout<<endl;
+    PracownikEtatowy pe1("Adam","Etatowy","Kierownik",6000);
+    pe1.Drukuj();
+    cout<<endl;
+    PracownikGodzinowy pg1("Marian","Godzinowy","Kierownik",100,6000);
+    pg1.Drukuj();
+    cout<<endl;
+    cout<<endl<<"Wynagrodznie godzinowego: "<<pg1.LiczWynagrodznie();
+    
+    
+    
+    return 0;
+}
+
+***********************************************************************
+
+/******************************************************************************
+
+C++ programowanie  obiektowe Wyklad Dziedziczenie protected
+
+*******************************************************************************/
+Przykład z Protected
+
+#include <iostream>
+using namespace std;
+
+class Osoba 
+{
+    private:
+        string imie;
+    protected:    // pole bedzie uzywane w klasie w Osoba i klasach dziedzieczacaych Pracownik
+        string nazwisko;
+    public:
+        Osoba(string imie,string nazwisko)
+        :imie(imie),nazwisko(nazwisko)
+        {
+        }
+        void Drukuj() const
+        {
+            cout<<endl<<"Imie i nazwisko: "<<imie<<" "<<nazwisko;
+        }
+};
+
+class Pracownik: public Osoba 
+{
+    private:
+        string stanowisko;
+    public:
+        Pracownik(string _imie,string _nazwisko,string _stanowisko)
+        :Osoba(_imie,_nazwisko),stanowisko(_stanowisko)
+        {
+        }
+        void Drukuj() const
+        {
+            Osoba::Drukuj();
+            cout<<endl<<"Stanowisko: "<<stanowisko;
+        }
+        void DrukujNazwiskoStanowisko()
+        {
+            cout<<endl<<"Nazwisko ze stanowiskiem: "<<nazwisko<<" "<<stanowisko;
+        }
+    
+};
+
+int main()
+{
+    Pracownik p1("Tomasz","Saran","Kierownik");
+    p1.Drukuj();
+    p1.DrukujNazwiskoStanowisko();
+    cout<<endl;
+    
+    
+    return 0;
+}
+
+*******************************************
+
+Przykad Funkcji wirtualnej 1
+
+/******************************************************************************
+
+C++ programowanie  obiektowe Wyklad Funkcje Wirtualne 1
+
+*******************************************************************************/
+#include <iostream>
+using namespace std;
+
+class Osoba 
+{
+    private: //enkapsulacja
+        string imie;
+    protected:    // pole bedzie uzywane w klasie w Osoba i klasach dziedzieczacaych Pracownik
+        string nazwisko;
+    public:
+        Osoba(string imie,string nazwisko)
+        :imie(imie),nazwisko(nazwisko)
+        {
+        }
+        void Drukuj() const
+        {
+            cout<<endl<<"Imie i nazwisko: "<<imie<<" "<<nazwisko;
+        }
+};
+
+class Pracownik: public Osoba 
+{
+    private:
+        string stanowisko;
+    public:
+        Pracownik(string _imie,string _nazwisko,string _stanowisko)
+        :Osoba(_imie,_nazwisko),stanowisko(_stanowisko)//konstruktor najpierw wywoła konstruktor macierzysty Osoba , 
+        //pózniej sam sie wywoła
+        {
+        }
+        void Drukuj() const
+        {
+            Osoba::Drukuj();
+            cout<<endl<<"Stanowisko: "<<stanowisko;
+        }
+        void DrukujNazwiskoStanowisko()
+        {
+            cout<<endl<<"Nazwisko ze stanowiskiem: "<<nazwisko<<" "<<stanowisko;
+        }
+    
+};
+
+int main()
+{
+    Osoba o1("Adam","Osoba");
+    Pracownik p1("Tomasz","Saran","Kierownik");
+    cout<<endl;
+    
+    //wskaznik na Osoba wskazuje na Osoba
+    Osoba *wskaznik1=&o1;
+    wskaznik1->Drukuj();
+    
+    //wskaznik na Osoba wskazuje na Pracownik
+    Osoba *wskaznik2=&p1;
+    wskaznik2->Drukuj();
+    
+    //wskaznik na Pracownik wskazuje na Osoba !!! tak nie mozna !!
+    //Pracownik *wskaznik3=&o1;
+    //wskaznik3->Drukuj();
+    
+    
+    
+    return 0;
+}
+
+***************************************************************
+
+Oto program znapisany bez funkcji wirtualnych . Powtarzalnosc kodu niedopuszczalna.
+Tak nie bedziemy Programowac !!!
+
+/******************************************************************************
+
+C++ programowanie  obiektowe Wyklad Oto program znapisany bez funkcji wirtualnych . 
+Powtarzalnosc kodu niedopuszczalna.
+Tak nie bedziemy Programowac !!!
+
+*******************************************************************************/
+#include <iostream>
+using namespace std;
+
+class Osoba 
+{
+    private:
+        string imie;
+        string nazwisko;
+    public:
+        Osoba(string imie,string nazwisko)
+        :imie(imie),nazwisko(nazwisko)
+        {
+        }
+        void Drukuj() const
+        {
+            cout<<endl<<"Imie i nazwisko: "<<imie<<" "<<nazwisko;
+        }
+};
+
+class Pracownik: public Osoba 
+{
+    private:
+        string stanowisko;
+    public:
+        Pracownik(string _imie,string _nazwisko,string _stanowisko)
+        :Osoba(_imie,_nazwisko),stanowisko(_stanowisko)
+        {
+        }
+        void Drukuj() const
+        {
+            Osoba::Drukuj();
+            cout<<endl<<"Stanowisko: "<<stanowisko;
+        }
+        double DochodyRoczne()
+        {
+            return 0;
+        }
+    
+};
+class PracownikEtatowy:public Pracownik
+{
+    private:
+        double placaBrutto;
+    public:
+        PracownikEtatowy(string imie,string nazwisko,string stanowisko,double placaBrutto)
+        :Pracownik(imie,nazwisko,stanowisko),placaBrutto(placaBrutto)
+        {
+        }
+        void Drukuj() const
+            {
+                Pracownik::Drukuj();
+                cout<<endl<<"Placa Brutto: "<<placaBrutto;
+            }
+        double DochodyRoczne()
+        {
+            return placaBrutto*12;
+        }    
+};
+class PracownikGodzinowy :public Pracownik
+{
+    private:
+        double liczbaGodzin;
+        double stawkaGodzinowa;
+    public:
+        PracownikGodzinowy(string imie,string nazwisko,string stanowisko,double liczbaGodzin,double stawkaGodzinowa)
+        :Pracownik(imie,nazwisko,stanowisko),liczbaGodzin(liczbaGodzin),stawkaGodzinowa(stawkaGodzinowa)
+        {
+        }
+        void Drukuj() const
+        {
+            Pracownik::Drukuj();// wywolanie metody Drukuj() z klasy Pracownik, wyswietlenie nazwiska i stanowiska
+            cout<<endl<<"Liczba godzin: "<<liczbaGodzin;
+            cout<<endl<<"Stawka Godzinowa: "<<stawkaGodzinowa;
+        }
+        double DochodyRoczne()
+        {
+            return liczbaGodzin*stawkaGodzinowa;
+        }
+        
+};
+class Ksiegowosc
+{
+    public:
+    void DrukujPIT(Pracownik &p)
+    {
+        cout<<endl;
+        cout<<endl<<"PIT-11";
+        cout<<endl<<"Dane podatnika: ";
+        p.Drukuj();
+        cout<<endl<<"Dochody roczne podatnika: "<<p.DochodyRoczne();
+        cout<<endl;
+    }
+    void DrukujPIT(PracownikEtatowy &p)
+    {
+        cout<<endl;
+        cout<<endl<<"PIT-11";
+        cout<<endl<<"Dane podatnika: ";
+        p.Drukuj();
+        cout<<endl<<"Dochody roczne podatnika: "<<p.DochodyRoczne();
+        cout<<endl;
+    }
+    void DrukujPIT(PracownikGodzinowy &p)
+    {
+        cout<<endl;
+        cout<<endl<<"PIT-11";
+        cout<<endl<<"Dane podatnika: ";
+        p.Drukuj();
+        cout<<endl<<"Dochody roczne podatnika: "<<p.DochodyRoczne();
+        cout<<endl;
+    }
+};
+int main()
+{
+    Ksiegowosc ksiegowosc;
+    
+    Pracownik p1("Tomek","Pracownik","Kierownik");
+    ksiegowosc.DrukujPIT(p1);
+    
+    
+    PracownikEtatowy pe1("Tomek","Etatowy","Kierownik",6000);
+    ksiegowosc.DrukujPIT(pe1);
+    
+    
+    PracownikGodzinowy pg1("Tomek","Godzinowy","Kierownik",400,200);
+    ksiegowosc.DrukujPIT(pg1);
+    
+    
+    
+    
+    return 0;
+}
+
+
+*************************************************************************
+
+Teraz ten sam kod tylko na funkcjach wirtualnych. TAK bedziemy programować!!!
+
+
+/******************************************************************************
+
+C++ programowanie  obiektowe Wyklad Funkcje Wirtualne 1
+
+*******************************************************************************/
+#include <iostream>
+using namespace std;
+
+class Osoba 
+{
+    private:
+        string imie;
+        string nazwisko;
+    public:
+        Osoba(string imie,string nazwisko)
+        :imie(imie),nazwisko(nazwisko)
+        {
+        }
+        // Funkcja Drukuj() jest virtualna poniewarz w klacie Ksiegowosc funkcja DrukujPIT() wywwołuje te Funkcje
+        // i ma byc wywoływana z tej klasy która reprezentuje obiekt
+        virtual void Drukuj() const
+        {
+            cout<<endl<<"Imie i nazwisko: "<<imie<<" "<<nazwisko;
+        }
+};
+
+class Pracownik: public Osoba 
+{
+    private:
+        string stanowisko;
+    public:
+        Pracownik(string _imie,string _nazwisko,string _stanowisko)
+        :Osoba(_imie,_nazwisko),stanowisko(_stanowisko)
+        {
+        }
+        void Drukuj() const
+        {
+            Osoba::Drukuj();
+            cout<<endl<<"Stanowisko: "<<stanowisko;
+        }
+        virtual double DochodyRoczne()
+        {
+            return 0;
+        }
+    
+};
+class PracownikEtatowy:public Pracownik
+{
+    private:
+        double placaBrutto;
+    public:
+        PracownikEtatowy(string imie,string nazwisko,string stanowisko,double placaBrutto)
+        :Pracownik(imie,nazwisko,stanowisko),placaBrutto(placaBrutto)
+        {
+        }
+        // Funkcja Drukuj() jest virtualna poniewarz w klacie Ksiegowosc funkcja DrukujPIT() wywwołuje te Funkcje
+        // i ma byc wywoływana z tej klasy która reprezentuje obiekt PracownikEtatowy
+        void Drukuj() const
+            {
+                Pracownik::Drukuj();
+                cout<<endl<<"Placa Brutto: "<<placaBrutto;
+            }
+        // funkcja dochody DochodyRoczne() jest funkcja virtualną
+        double DochodyRoczne()
+        {
+            return placaBrutto*12;
+        }    
+};
+class PracownikGodzinowy :public Pracownik
+{
+    private:
+        double liczbaGodzin;
+        double stawkaGodzinowa;
+    public:
+        PracownikGodzinowy(string imie,string nazwisko,string stanowisko,double liczbaGodzin,double stawkaGodzinowa)
+        :Pracownik(imie,nazwisko,stanowisko),liczbaGodzin(liczbaGodzin),stawkaGodzinowa(stawkaGodzinowa)
+        {
+        }
+        // Funkcja Drukuj() jest virtualna poniewarz w klacie Ksiegowosc funkcja DrukujPIT() wywwołuje te Funkcje
+        // i ma byc wywoływana z tej klasy która reprezentuje obiekt PracownikGodzinowy
+        void Drukuj() const
+        {
+            Pracownik::Drukuj();// wywolanie metody Drukuj() z klasy Pracownik, wyswietlenie nazwiska i stanowiska
+            cout<<endl<<"Liczba godzin: "<<liczbaGodzin;
+            cout<<endl<<"Stawka Godzinowa: "<<stawkaGodzinowa;
+        }
+                double DochodyRoczne()
+        {
+            return liczbaGodzin*stawkaGodzinowa;
+        }
+        
+};
+class Ksiegowosc
+{
+    public:
+    void DrukujPIT(Pracownik &p)
+    {
+        cout<<endl;
+        cout<<endl<<"PIT-11";
+        cout<<endl<<"Dane podatnika: ";
+        p.Drukuj();
+        cout<<endl<<"Dochody roczne podatnika: "<<p.DochodyRoczne();
+        cout<<endl;
+    }
+};
+int main()
+{
+    Ksiegowosc ksiegowosc;
+    
+    Pracownik p1("Tomek","Pracownik","Kierownik");
+    ksiegowosc.DrukujPIT(p1);
+    
+    
+    PracownikEtatowy pe1("Tomek","Etatowy","Kierownik",6000);
+    ksiegowosc.DrukujPIT(pe1);
+    
+    
+    PracownikGodzinowy pg1("Tomek","Godzinowy","Kierownik",400,200);
+    ksiegowosc.DrukujPIT(pg1);
+    
+    
+    return 0;
+}
+
+powyrzej
+z wirtualnoscia mamy puznie wiazanie
+
+********************************************************
+
+
